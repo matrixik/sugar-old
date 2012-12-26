@@ -41,7 +41,7 @@ func getPath(tmap map[string]interface{}, path string) interface{} {
 
 	switch len(chunks) {
 	case 0:
-		return nil
+		return tmap
 	case 1:
 		return tmap[chunks[0]]
 	default:
