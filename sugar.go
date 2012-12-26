@@ -30,8 +30,8 @@ import (
 
 const Separator = "/"
 
-// Trivial tuple
-type Tuple map[string]interface{}
+// Trivial map
+type Map map[string]interface{}
 
 // Trivial list
 type List []interface{}
@@ -48,8 +48,8 @@ func getPath(tmap map[string]interface{}, path string) interface{} {
 		switch tmap[chunks[0]].(type) {
 		case map[string]interface{}:
 			return getPath(tmap[chunks[0]].(map[string]interface{}), strings.Join(chunks[1:], Separator))
-		case Tuple:
-			return getPath(tmap[chunks[0]].(Tuple), strings.Join(chunks[1:], Separator))
+		case Map:
+			return getPath(tmap[chunks[0]].(Map), strings.Join(chunks[1:], Separator))
 		default:
 			return nil
 		}
@@ -71,8 +71,8 @@ func setPath(tmap map[string]interface{}, path string, value interface{}) error 
 		switch tmap[chunks[0]].(type) {
 		case map[string]interface{}:
 			return setPath(tmap[chunks[0]].(map[string]interface{}), strings.Join(chunks[1:], Separator), value)
-		case Tuple:
-			return setPath(tmap[chunks[0]].(Tuple), strings.Join(chunks[1:], Separator), value)
+		case Map:
+			return setPath(tmap[chunks[0]].(Map), strings.Join(chunks[1:], Separator), value)
 		default:
 			delete(tmap, chunks[0])
 			tmap[chunks[0]] = map[string]interface{}{}
@@ -83,12 +83,12 @@ func setPath(tmap map[string]interface{}, path string, value interface{}) error 
 	return nil
 }
 
-// Digs into a sugar.Tuple{} and returns a value.
-func (self *Tuple) Get(path string) interface{} {
+// Digs into a sugar.Map{} and returns a value.
+func (self *Map) Get(path string) interface{} {
 	return getPath(*self, path)
 }
 
-// Digs into a sugar.Tuple{} and sets a value.
-func (self *Tuple) Set(path string, value interface{}) error {
+// Digs into a sugar.Map{} and sets a value.
+func (self *Map) Set(path string, value interface{}) error {
 	return setPath(*self, path, value)
 }
